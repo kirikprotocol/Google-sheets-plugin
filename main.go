@@ -18,9 +18,9 @@ type Config struct {
 	Port string
 	UnmarkableXML string
 	MarkableXML string
+	ErrorXML string
 	LogPath string
 	PathToGoogleKeyJson string
-	SpreadsheetId string
 	KnownKeys []string
 }
 
@@ -28,12 +28,13 @@ var config = new(Config)
 //var outputFile = new(os.File)
 var responseXml = []byte{}
 var markableResponseXml = []byte{}
+var errorXml = []byte{}
 
 // added for test commit
 
 //var knownKeys = []string{"ref_sid", "event.id", "event.order", "subscriber", "abonent", "protocol", "user_id", "service", "event.text", "event.referer", "event", "lang", "serviceId", "wnumber"}
 
-func init_system() (*Config, []byte, []byte, error) {
+func init_system() (*Config, []byte, []byte, []byte, error) {
 	cfg_bytes, err := ioutil.ReadFile(os.Args[1])
 	json.Unmarshal(cfg_bytes, config)
 	//log.Println("config: ",config)
@@ -45,6 +46,7 @@ func init_system() (*Config, []byte, []byte, error) {
 	//f, err := os.OpenFile("out.csv", os.O_APPEND|os.O_WRONLY, 0600)
 	resp_xml, err := ioutil.ReadFile(config.UnmarkableXML)
 	mark_resp_xml, err := ioutil.ReadFile(config.MarkableXML)
+	err_xml, err := ioutil.ReadFile(config.ErrorXML)
 
 	logFile, err := os.OpenFile(config.LogPath, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
@@ -56,7 +58,7 @@ func init_system() (*Config, []byte, []byte, error) {
 	log.Println("Logging to file and console!")
 
 	initialize_sheet()
-	return config, resp_xml, mark_resp_xml, err
+	return config, resp_xml, err_xml, mark_resp_xml, err
 }
 
 func calcMark(params map[string]string) (int){
@@ -79,6 +81,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		//if contains(config.PageNames, parameter) {
 			params:=genParameters(r.URL.Query())
 			mark = calcMark(params)
+			updErr := updSheet(r.URL.Query().Get("spreadsheetId"))
+			if updErr != nil{
+				fmt.Fprintf(w, string(errorXml), string(updErr.Error()))
+				return
+			}
 			go addEntry(time.Now().String(),
 				r.URL.Query().Get("subscriber"),
 				r.URL.Query().Get("protocol"),
@@ -106,9 +113,10 @@ func main() {
 	if len(os.Args) < 2{
 		log.Fatal("You should pass me a config name like: ",os.Args[0]," <json config name>")
 	}
-	cfg, respXml, markRespXml, err := init_system()
+	cfg, respXml, errXml, markRespXml, err := init_system()
 	config = cfg
 	//outputFile = f
+	errorXml = errXml
 	responseXml = respXml
 	markableResponseXml = markRespXml
 	//log.Println(string(response_xml))

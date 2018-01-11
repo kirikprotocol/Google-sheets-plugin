@@ -11,6 +11,7 @@ import (
 )
 
 var service = new(spreadsheet.Service)
+var sprsheet = *new(spreadsheet.Spreadsheet)
 
 func initialize_sheet() {
 	data, err := ioutil.ReadFile(config.PathToGoogleKeyJson)
@@ -20,15 +21,18 @@ func initialize_sheet() {
 	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
 	checkError(err)
 	client := conf.Client(context.TODO())
-
 	service = spreadsheet.NewServiceWithClient(client)
+}
+
+func updSheet(id string)(error){
+	err := *new(error)
+	sprsheet, err = service.FetchSpreadsheet(id)
+	return err
 }
 
 func addEntry(timestamp string, user_id string, protocol string, wnumber string, markable bool, mark int, params map[string]string) {
 	log.Print("Adding entry: ", timestamp, " ", user_id, " ", protocol, " ", wnumber, " ", params)
-	spreadsheet, err := service.FetchSpreadsheet(config.SpreadsheetId)
-	checkError(err)
-	sheet, err := spreadsheet.SheetByIndex(0)
+	sheet, err := sprsheet.SheetByIndex(0)
 	checkError(err)
 	err = sheet.Synchronize()
 	checkError(err)

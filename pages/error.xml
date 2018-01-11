@@ -1,5 +1,5 @@
 <page version="2.0">
-    <div>You aleready participated! >:(</div>
+    <div>Error: %s</div>
     <navigation>
         <link pageId="">/start</link>
     </navigation>
