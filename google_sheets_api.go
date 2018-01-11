@@ -14,7 +14,9 @@ var service = new(spreadsheet.Service)
 
 func initialize_sheet() {
 	data, err := ioutil.ReadFile(config.PathToGoogleKeyJson)
-	checkError(err)
+	if err != nil{
+		log.Fatal("Cannot read from json key file: "+config.PathToGoogleKeyJson)
+	}
 	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
 	checkError(err)
 	client := conf.Client(context.TODO())
