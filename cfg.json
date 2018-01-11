@@ -2,8 +2,9 @@
   "markable": true,
   "serverRoot": "/",
   "port": "32123",
-  "unmarkableXML": "response.xml",
-  "markableXML": "markableResponse.xml",
+  "unmarkableXML": "pages/response.xml",
+  "markableXML": "pages/markableResponse.xml",
+  "logPath": "logs/bot.log",
   "pathToGoogleKeyJson": "E:\\passwords\\google_key\\test123-00d398ffbf6c.json",
   "spreadsheetId": "1GCXT5ii2NJxok6hpnjAXp3RQd6H_9TQs4pkKB6PDbZc",
   "knownKeys": ["ref_sid", "event.id", "event.order", "subscriber", "abonent", "protocol", "user_id", "service", "event.text", "event.referer", "event", "lang", "serviceId", "wnumber"]

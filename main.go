@@ -9,6 +9,7 @@ import (
 	"time"
 	"strconv"
 	"os"
+	"io"
 )
 
 type Config struct {
@@ -17,6 +18,7 @@ type Config struct {
 	Port string
 	UnmarkableXML string
 	MarkableXML string
+	LogPath string
 	PathToGoogleKeyJson string
 	SpreadsheetId string
 	KnownKeys []string
@@ -34,7 +36,7 @@ var markableResponseXml = []byte{}
 func init_system() (*Config, []byte, []byte, error) {
 	cfg_bytes, err := ioutil.ReadFile(os.Args[1])
 	json.Unmarshal(cfg_bytes, config)
-	log.Println("config: ",config)
+	//log.Println("config: ",config)
 	/*
 	if !exists("out.csv") {
 		ioutil.WriteFile("out.csv", []byte("page,button,user_id,wnumber,protocol\n"), 0644)
@@ -43,6 +45,16 @@ func init_system() (*Config, []byte, []byte, error) {
 	//f, err := os.OpenFile("out.csv", os.O_APPEND|os.O_WRONLY, 0600)
 	resp_xml, err := ioutil.ReadFile(config.UnmarkableXML)
 	mark_resp_xml, err := ioutil.ReadFile(config.MarkableXML)
+
+	logFile, err := os.OpenFile(config.LogPath, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer logFile.Close()
+	mw := io.MultiWriter(os.Stdout, logFile)
+	log.SetOutput(mw)
+	log.Println("Logging to file and console!")
+
 	initialize_sheet()
 	return config, resp_xml, mark_resp_xml, err
 }
