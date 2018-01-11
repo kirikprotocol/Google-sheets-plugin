@@ -31,7 +31,7 @@ func contains(arr []string, elem string) (bool){
 func genParameters(query url.Values) (map[string]string){
 	out := map[string]string{}
 	for parmaeter := range query{
-		if !contains(knownKeys, parmaeter){
+		if !contains(config.KnownKeys, parmaeter){
 			out[parmaeter] = query.Get(parmaeter)
 		}
 	}

@@ -18,11 +18,12 @@ type Config struct {
 	MarkableXML string
 	PathToGoogleKeyJson string
 	SpreadsheetId string
+	KnownKeys []string
 }
 
 // added for test commit
 
-var knownKeys = []string{"ref_sid", "event.id", "event.order", "subscriber", "abonent", "protocol", "user_id", "service", "event.text", "event.referer", "event", "lang", "serviceId", "wnumber"}
+//var knownKeys = []string{"ref_sid", "event.id", "event.order", "subscriber", "abonent", "protocol", "user_id", "service", "event.text", "event.referer", "event", "lang", "serviceId", "wnumber"}
 
 func init_system() (*Config, []byte, []byte, error) {
 	config := new(Config)
