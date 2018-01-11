@@ -8,6 +8,7 @@ import (
 	"log"
 	"time"
 	"strconv"
+	"os"
 )
 
 type Config struct {
@@ -31,7 +32,7 @@ var markableResponseXml = []byte{}
 //var knownKeys = []string{"ref_sid", "event.id", "event.order", "subscriber", "abonent", "protocol", "user_id", "service", "event.text", "event.referer", "event", "lang", "serviceId", "wnumber"}
 
 func init_system() (*Config, []byte, []byte, error) {
-	cfg_bytes, err := ioutil.ReadFile("cfg.json")
+	cfg_bytes, err := ioutil.ReadFile(os.Args[1])
 	json.Unmarshal(cfg_bytes, config)
 	log.Println("config: ",config)
 	/*
@@ -90,6 +91,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	log.Println("Starting...")
+	if len(os.Args) < 2{
+		log.Fatal("You should pass me a config name like: ",os.Args[0]," <json config name>")
+	}
 	cfg, respXml, markRespXml, err := init_system()
 	config = cfg
 	//outputFile = f

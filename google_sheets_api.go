@@ -26,9 +26,9 @@ func initialize_sheet() {
 
 func addEntry(timestamp string, user_id string, protocol string, wnumber string, markable bool, mark int, params map[string]string) {
 	log.Print("Adding entry: ", timestamp, " ", user_id, " ", protocol, " ", wnumber, " ", params)
-	currSpreadsheet, err := service.FetchSpreadsheet(config.SpreadsheetId)
+	spreadsheet, err := service.FetchSpreadsheet(config.SpreadsheetId)
 	checkError(err)
-	sheet, err := currSpreadsheet.SheetByIndex(0)
+	sheet, err := spreadsheet.SheetByIndex(0)
 	checkError(err)
 	err = sheet.Synchronize()
 	checkError(err)
