@@ -1,0 +1,9 @@
+{
+  "markable": true,
+  "serverRoot": "/",
+  "port": "32123",
+  "unmarkableXML": "response.xml",
+  "markableXML": "markableResponse.xml",
+  "pathToGoogleKeyJson": "E:\\passwords\\google_key\\test123-00d398ffbf6c.json",
+  "spreadsheetId": "1GCXT5ii2NJxok6hpnjAXp3RQd6H_9TQs4pkKB6PDbZc"
+}
