@@ -21,17 +21,24 @@ type Config struct {
 	KnownKeys []string
 }
 
+var config = new(Config)
+//var outputFile = new(os.File)
+var responseXml = []byte{}
+var markableResponseXml = []byte{}
+
 // added for test commit
 
 //var knownKeys = []string{"ref_sid", "event.id", "event.order", "subscriber", "abonent", "protocol", "user_id", "service", "event.text", "event.referer", "event", "lang", "serviceId", "wnumber"}
 
 func init_system() (*Config, []byte, []byte, error) {
-	config := new(Config)
 	cfg_bytes, err := ioutil.ReadFile("cfg.json")
 	json.Unmarshal(cfg_bytes, config)
+	log.Println("config: ",config)
+	/*
 	if !exists("out.csv") {
 		ioutil.WriteFile("out.csv", []byte("page,button,user_id,wnumber,protocol\n"), 0644)
 	}
+	*/
 	//f, err := os.OpenFile("out.csv", os.O_APPEND|os.O_WRONLY, 0600)
 	resp_xml, err := ioutil.ReadFile(config.UnmarkableXML)
 	mark_resp_xml, err := ioutil.ReadFile(config.MarkableXML)
@@ -80,11 +87,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, string(markableResponseXml), strconv.Itoa(mark))
 	}
 }
-
-var config = new(Config)
-//var outputFile = new(os.File)
-var responseXml = []byte{}
-var markableResponseXml = []byte{}
 
 func main() {
 	log.Println("Starting...")

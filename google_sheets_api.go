@@ -15,7 +15,7 @@ var service = new(spreadsheet.Service)
 func initialize_sheet() {
 	data, err := ioutil.ReadFile(config.PathToGoogleKeyJson)
 	if err != nil{
-		log.Fatal("Cannot read from json key file: "+config.PathToGoogleKeyJson)
+		log.Fatal("Cannot read from json key file: ",config.PathToGoogleKeyJson,";")
 	}
 	conf, err := google.JWTConfigFromJSON(data, spreadsheet.Scope)
 	checkError(err)
@@ -26,9 +26,9 @@ func initialize_sheet() {
 
 func addEntry(timestamp string, user_id string, protocol string, wnumber string, markable bool, mark int, params map[string]string) {
 	log.Print("Adding entry: ", timestamp, " ", user_id, " ", protocol, " ", wnumber, " ", params)
-	spreadsheet, err := service.FetchSpreadsheet(config.SpreadsheetId)
+	currSpreadsheet, err := service.FetchSpreadsheet(config.SpreadsheetId)
 	checkError(err)
-	sheet, err := spreadsheet.SheetByIndex(0)
+	sheet, err := currSpreadsheet.SheetByIndex(0)
 	checkError(err)
 	err = sheet.Synchronize()
 	checkError(err)
