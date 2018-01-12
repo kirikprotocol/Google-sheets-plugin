@@ -1,11 +1,10 @@
 {
-  "markable": true,
   "serverRoot": "/",
   "port": "32123",
   "unmarkableXML": "C:/Users/gav/go/src/MiniappsTesterGoogleSheetsBot/pages/response.xml",
   "markableXML": "C:/Users/gav/go/src/MiniappsTesterGoogleSheetsBot/pages/markableResponse.xml",
   "errorXML": "C:/Users/gav/go/src/MiniappsTesterGoogleSheetsBot/pages/error.xml",
   "logPath": "C:/Users/gav/go/src/MiniappsTesterGoogleSheetsBot/logs/bot.log",
-  "pathToGoogleKeyJson": "E:\\passwords\\google_key\\test123-00d398ffbf6c.json",
+  "pathToGoogleKeyJson": "E:\\passwords\\google_key\\MiniappsTesterBot-e3f1e1953eda.json",
   "knownKeys": ["ref_sid", "event.id", "event.order", "subscriber", "abonent", "protocol", "user_id", "service", "event.text", "event.referer", "event", "lang", "serviceId", "wnumber"]
 }

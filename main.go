@@ -13,7 +13,6 @@ import (
 )
 
 type Config struct {
-	Markable bool
 	ServerRoot string
 	Port string
 	UnmarkableXML string
@@ -77,6 +76,12 @@ func calcMark(params map[string]string) (int){
 func handler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Got request:", r.URL.String(), "\nContent: ", r.Body)
 	var mark = 0
+	evaluableInt, err := strconv.Atoi(r.URL.Query().Get("evaluable"))
+	evaluable := true
+	evaluable = evaluableInt == 1
+	if err != nil || evaluableInt > 1{
+		evaluable = false
+	}
 	//for parameter := range r.URL.Query() {
 		//if contains(config.PageNames, parameter) {
 			params:=genParameters(r.URL.Query())
@@ -90,7 +95,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 				r.URL.Query().Get("subscriber"),
 				r.URL.Query().Get("protocol"),
 				r.URL.Query().Get("wnumber"),
-					config.Markable,
+					evaluable,
 					mark,
 					params)
 			//go outputFile.Write([]byte(time.Now().String() + "," +
@@ -101,7 +106,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			//	r.URL.Query().Get("protocol") + "\n"))
 		//}
 	//}
-	if !config.Markable {
+	if !evaluable {
 		fmt.Fprintf(w, string(responseXml))
 	}else{
 		fmt.Fprintf(w, string(markableResponseXml), strconv.Itoa(mark))
