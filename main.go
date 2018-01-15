@@ -47,6 +47,10 @@ func init_system() (*Config, []byte, []byte, []byte, error) {
 	mark_resp_xml, err := ioutil.ReadFile(config.MarkableXML)
 	err_xml, err := ioutil.ReadFile(config.ErrorXML)
 
+	if err != nil{
+		log.Fatal("Error reading from response files: ", err.Error())
+	}
+
 	logFile, err := os.OpenFile(config.LogPath, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
