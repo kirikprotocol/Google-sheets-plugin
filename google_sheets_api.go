@@ -37,6 +37,21 @@ func addEntry(timestamp string, user_id string, protocol string, wnumber string,
 	err = sheet.Synchronize()
 	checkError(err)
 	log.Print(".")
+	//log.Println("sheet rows [0]=",sheet.Rows[0])
+	if sheet.Rows[0][0].Value != "timestamp"{
+		sheet.Update(0,0, "timestamp")
+		sheet.Update(0,1, "user_id")
+		sheet.Update(0,2, "protocol")
+		sheet.Update(0,3, "wnumber")
+		sheet.Update(0,4, "mark")
+		//err = sheet.Synchronize()
+		//checkError(err)
+		//go addEntry(timestamp,user_id,protocol,wnumber,markable,mark,params)
+		//return
+	}
+	//log.Println("rows: ",sheet.Rows)
+	err = sheet.Synchronize()
+	checkError(err)
 	pgNamesCells := sheet.Rows[0][5:]
 	pgNames := []string{}
 	for _, cell := range pgNamesCells {
