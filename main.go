@@ -112,9 +112,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		//}
 	//}
 	if !evaluable {
-		go fmt.Fprintf(w, string(responseXml))
+		fmt.Fprintf(w, string(responseXml))
 	}else{
-		go fmt.Fprintf(w, string(markableResponseXml), strconv.Itoa(mark))
+		fmt.Fprintf(w, string(markableResponseXml), strconv.Itoa(mark))
 	}
 }
 

@@ -129,7 +129,7 @@ func findColumn(sheet *spreadsheet.Sheet, key string) (int) {
 			out = i
 		}
 	}
-	return 5 + out
+	return 6 + out
 }
 
 func fillUnfilledCols(sheet *spreadsheet.Sheet, row int, lastColumnIdx int){
