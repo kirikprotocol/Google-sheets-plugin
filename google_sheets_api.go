@@ -68,14 +68,14 @@ func addEntry(timestamp string, user_id string, protocol string, wnumber string,
 	if match {
 		sheet.Update(emptyRowIdx, 0, timestamp)
 		sheet.Update(emptyRowIdx, 1, user_id)
-		sheet.Update(emptyRowIdx, 2, protocol)
-		sheet.Update(emptyRowIdx, 3, tgId)
+		sheet.Update(emptyRowIdx, 3, protocol)
+		sheet.Update(emptyRowIdx, 2, tgId)
 		sheet.Update(emptyRowIdx, 4, wnumber)
 	}else {
 		sheet.Update(emptyRowIdx, 0, timestamp)
 		sheet.Update(emptyRowIdx, 1, "0")
-		sheet.Update(emptyRowIdx, 2, protocol)
-		sheet.Update(emptyRowIdx, 3, tgId)
+		sheet.Update(emptyRowIdx, 3, protocol)
+		sheet.Update(emptyRowIdx, 2, tgId)
 		sheet.Update(emptyRowIdx, 4, user_id)
 	}
 	//123
