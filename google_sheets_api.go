@@ -30,7 +30,7 @@ func updSheet(id string)(error){
 	return err
 }
 
-func addEntry(timestamp string, user_id string, protocol string, wnumber string, tgId string, markable bool, mark int, params map[string]string) {
+func addEntry(timestamp string, user_id string, protocol string, wnumber string, markable bool, mark int, params map[string]string) {
 	log.Print("Adding entry: ", timestamp, " ", user_id, " ", protocol, " ", wnumber, " ", params)
 	sheet, err := sprsheet.SheetByIndex(0)
 	checkError(err)
@@ -41,10 +41,10 @@ func addEntry(timestamp string, user_id string, protocol string, wnumber string,
 	if sheet.Rows[0][0].Value != "timestamp"{
 		sheet.Update(0,0, "timestamp")
 		sheet.Update(0,1, "user_id")
-		sheet.Update(0,2,"telegram_id")
-		sheet.Update(0,3, "protocol")
-		sheet.Update(0,4, "wnumber")
-		sheet.Update(0,5, "mark")
+		//sheet.Update(0,2,"telegram_id")
+		sheet.Update(0,2, "protocol")
+		sheet.Update(0,3, "wnumber")
+		sheet.Update(0,4, "mark")
 		//err = sheet.Synchronize()
 		//checkError(err)
 		//go addEntry(timestamp,user_id,protocol,wnumber,markable,mark,params)
@@ -53,7 +53,7 @@ func addEntry(timestamp string, user_id string, protocol string, wnumber string,
 	//log.Println("rows: ",sheet.Rows)
 	err = sheet.Synchronize()
 	checkError(err)
-	pgNamesCells := sheet.Rows[0][6:]
+	pgNamesCells := sheet.Rows[0][5:]
 	pgNames := []string{}
 	for _, cell := range pgNamesCells {
 		pgNames = append(pgNames, cell.Value)
@@ -68,21 +68,21 @@ func addEntry(timestamp string, user_id string, protocol string, wnumber string,
 	if match {
 		sheet.Update(emptyRowIdx, 0, timestamp)
 		sheet.Update(emptyRowIdx, 1, user_id)
-		sheet.Update(emptyRowIdx, 3, protocol)
-		sheet.Update(emptyRowIdx, 2, tgId)
-		sheet.Update(emptyRowIdx, 4, wnumber)
+		sheet.Update(emptyRowIdx, 2, protocol)
+		//sheet.Update(emptyRowIdx, 2, tgId)
+		sheet.Update(emptyRowIdx, 3, wnumber)
 	}else {
 		sheet.Update(emptyRowIdx, 0, timestamp)
 		sheet.Update(emptyRowIdx, 1, "0")
-		sheet.Update(emptyRowIdx, 3, protocol)
-		sheet.Update(emptyRowIdx, 2, tgId)
-		sheet.Update(emptyRowIdx, 4, user_id)
+		sheet.Update(emptyRowIdx, 2, protocol)
+		//sheet.Update(emptyRowIdx, 2, tgId)
+		sheet.Update(emptyRowIdx, 3, user_id)
 	}
 	//123
 	if markable {
-		sheet.Update(emptyRowIdx, 5, strconv.Itoa(mark))
+		sheet.Update(emptyRowIdx, 4, strconv.Itoa(mark))
 	}else {
-		sheet.Update(emptyRowIdx, 5, "not markable")
+		sheet.Update(emptyRowIdx, 4, "not markable")
 	}
 	for key, value := range params {
 		//log.Println("Cols: ",sheet.Columns[0],"; rows: ",sheet.Rows[0])
@@ -124,12 +124,12 @@ func getEmpty(cells []spreadsheet.Cell) (int) {
 
 func findColumn(sheet *spreadsheet.Sheet, key string) (int) {
 	out := 0
-	for i, column := range sheet.Rows[0][6:] {
+	for i, column := range sheet.Rows[0][5:] {
 		if column.Value == key {
 			out = i
 		}
 	}
-	return 6 + out
+	return 5 + out
 }
 
 func fillUnfilledCols(sheet *spreadsheet.Sheet, row int, lastColumnIdx int){

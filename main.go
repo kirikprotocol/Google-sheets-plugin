@@ -99,7 +99,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 				r.URL.Query().Get("subscriber"),
 				r.URL.Query().Get("protocol"),
 				r.URL.Query().Get("wnumber"),
-					r.URL.Query().Get("event.id"),
+					//r.URL.Query().Get("event.id"),
 					evaluable,
 					mark,
 					params)
